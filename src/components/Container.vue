@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Question />
-    <Answer />
+    <question :question="question" />
+    <answer :answers="answers" />
   </div>
 </template>
 
@@ -12,6 +12,10 @@
     components: {
       Answer,
       Question,
+    },
+    props: {
+      question: String,
+      answers: Array,
     },
   };
 </script>
