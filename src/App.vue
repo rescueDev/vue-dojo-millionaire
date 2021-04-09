@@ -4,7 +4,13 @@
     <div>
       <button @click="startGame">Start Game</button>
     </div>
-    <Container :question="quest.question" :answers="quest.answers"> </Container>
+    <Container
+      :question="quest.question"
+      :answers="quest.answers"
+      :correct="quest.correct"
+      @check-answer="checkAnswer"
+    >
+    </Container>
   </div>
 </template>
 
@@ -17,11 +23,6 @@
     components: {
       Container,
     },
-    // provide() {
-    //   return {
-    //     prova: this.prova,
-    //   };
-    // },
 
     data() {
       return {
@@ -42,6 +43,8 @@
         this.randomQuestion();
       },
       randomQuestion() {
+        //disable button
+
         //get first block questions
         var firstQuestion = this.questions[this.block].questions;
 
@@ -55,8 +58,12 @@
         this.quest = {
           question: random.question,
           answers: random.content,
+          correct: random.correct,
         };
-        this.prova = random;
+        console.log(this.quest);
+      },
+      checkAnswer(index, answer) {
+        console.log("app.vue emit dati", answer, index);
       },
     },
   };

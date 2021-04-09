@@ -1,7 +1,7 @@
 <template>
   <div>
     <question :question="question" />
-    <answer :answers="answers" />
+    <answer :answers="answers" :correct="correct" @check-answer="checkAnswer" />
   </div>
 </template>
 
@@ -16,6 +16,13 @@
     props: {
       question: String,
       answers: Array,
+      correct: Number,
+    },
+    methods: {
+      checkAnswer(answer, index) {
+        console.log("container emits", index, answer);
+        this.$emit("check-answer", index, answer);
+      },
     },
   };
 </script>

@@ -1,7 +1,6 @@
 <template>
   <div>
     <h2>
-      Question:
       {{ question }}
     </h2>
   </div>
@@ -13,7 +12,7 @@
     props: {
       question: String,
     },
-    // inject: { question: "question" },
+
     mounted() {
       console.log(this.question);
     },
