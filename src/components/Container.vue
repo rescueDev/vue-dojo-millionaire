@@ -19,9 +19,9 @@
       correct: Number,
     },
     methods: {
-      checkAnswer(answer, index) {
+      checkAnswer(answer, index, results) {
         console.log("container emits", index, answer);
-        this.$emit("check-answer", index, answer);
+        this.$emit("check-answer", index, answer, results);
       },
     },
   };

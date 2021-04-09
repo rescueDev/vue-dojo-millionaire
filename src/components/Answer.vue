@@ -39,9 +39,16 @@
         this.results = true;
         this.id = index;
         this.answer = answer;
-
-        // console.log(this.id, this.answer);
-        this.$emit("check-answer", this.answer, this.id);
+        this.$emit("check-answer", this.answer, this.id, this.results);
+      },
+    },
+    computed: {
+      mutateNext() {
+        if (this.results && this.next) {
+          return "correct asn";
+        } else {
+          return "wrong answer";
+        }
       },
     },
   };
@@ -62,13 +69,13 @@
     margin-bottom: 1%;
     transition: 1s ease;
     border-radius: 2px;
+    font-weight: bold;
   }
 
   .answer:hover {
     /* background-color: cornflowerblue; */
     cursor: pointer;
     transition: 1s ease;
-    font-weight: bold;
   }
 
   .wrong {

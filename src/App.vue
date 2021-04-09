@@ -42,52 +42,47 @@
       },
       randomQuestion() {
         //disable button
-
         //get first block questions
         var firstQuestion = this.questions[this.block].questions;
 
         //get random question from first block
-
         let random =
           firstQuestion[Math.floor(Math.random() * firstQuestion.length)];
-        // this.question = random.question;
-        // this.answers = random.content;
 
+        //assign question, answers and correct
         this.quest = {
           question: random.question,
           answers: random.content,
           correct: random.correct,
         };
-
-        this.questions;
-        // console.log(this.quest);
       },
-      checkAnswer(index, answer) {
-        console.log("app.vue emit dati", answer, index);
+
+      checkAnswer(index, answer, results) {
+        console.log("app.vue emit dati", answer, index, results);
         if (this.quest.correct === index) {
           this.points++;
           console.log("bravo, giusta", this.points);
         }
 
-        // console.log(this.quest.question);
+        this.next = results;
+
+        //filter questions
         var asked = this.questions[this.block].questions.find(
           (el) => el.question === this.quest.question
         );
-        console.log("filter works?", asked);
 
+        //target question id
         const ind = this.questions[this.block].questions.indexOf(asked);
 
+        //remove question in array questions
         if (ind > -1) {
           this.questions[this.block].questions.splice(ind, 1);
         }
 
-        console.log(this.questions);
-
+        //pass to second and more block of questions (much difficult)
         if (this.questions[this.block].questions.length === 0) {
           this.block++;
         }
-
-        // this.randomQuestion();
       },
     },
   };
