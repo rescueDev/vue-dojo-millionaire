@@ -27,14 +27,12 @@
     data() {
       return {
         questions: questions,
-        // question: "",
-        // answers: [],
         quest: {
           question: "",
           answers: [],
         },
         block: 0,
-        prova: "",
+        points: 0,
       };
     },
 
@@ -60,10 +58,36 @@
           answers: random.content,
           correct: random.correct,
         };
-        console.log(this.quest);
+
+        this.questions;
+        // console.log(this.quest);
       },
       checkAnswer(index, answer) {
         console.log("app.vue emit dati", answer, index);
+        if (this.quest.correct === index) {
+          this.points++;
+          console.log("bravo, giusta", this.points);
+        }
+
+        // console.log(this.quest.question);
+        var asked = this.questions[this.block].questions.find(
+          (el) => el.question === this.quest.question
+        );
+        console.log("filter works?", asked);
+
+        const ind = this.questions[this.block].questions.indexOf(asked);
+
+        if (ind > -1) {
+          this.questions[this.block].questions.splice(ind, 1);
+        }
+
+        console.log(this.questions);
+
+        if (this.questions[this.block].questions.length === 0) {
+          this.block++;
+        }
+
+        // this.randomQuestion();
       },
     },
   };

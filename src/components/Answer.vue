@@ -13,7 +13,7 @@
         :key="index"
         @click="checkAnswer(answer, index)"
       >
-        {{ answer }} {{ index }}
+        {{ answer }}
       </li>
     </ul>
   </div>
@@ -27,6 +27,7 @@
         id: null,
         answer: "",
         results: false,
+        points: 0,
       };
     },
     props: {
@@ -40,7 +41,7 @@
         this.answer = answer;
 
         // console.log(this.id, this.answer);
-        // this.$emit("check-answer", this.answer, this.id);
+        this.$emit("check-answer", this.answer, this.id);
       },
     },
   };
