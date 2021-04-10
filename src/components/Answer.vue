@@ -41,14 +41,8 @@
         this.answer = answer;
         this.$emit("check-answer", this.answer, this.id, this.results);
       },
-    },
-    computed: {
-      mutateNext() {
-        if (this.results && this.next) {
-          return "correct asn";
-        } else {
-          return "wrong answer";
-        }
+      clear() {
+        this.results = false;
       },
     },
   };

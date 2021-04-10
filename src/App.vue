@@ -1,14 +1,17 @@
 <template>
   <div id="app">
     <img alt="Millionaire logo" src="./assets/logo.png" />
-    <div>
-      <button @click="startGame">Start Game</button>
+    <div class="mb-4">
+      <button class="mt-3 btn btn-primary" @click="startGame">
+        Start Game
+      </button>
     </div>
     <Container
       :question="quest.question"
       :answers="quest.answers"
       :correct="quest.correct"
       @check-answer="checkAnswer"
+      ref="containerComp"
     >
     </Container>
   </div>
@@ -35,13 +38,18 @@
         points: 0,
       };
     },
+    mounted() {
+      console.log("Refs", this.$refs.containerComp.$children[1].clear());
+    },
 
     methods: {
       startGame() {
         this.randomQuestion();
       },
       randomQuestion() {
-        //disable button
+        //set results style answers false
+        this.$refs.containerComp.$children[1].clear();
+
         //get first block questions
         var firstQuestion = this.questions[this.block].questions;
 
@@ -64,7 +72,7 @@
           console.log("bravo, giusta", this.points);
         }
 
-        this.next = results;
+        results = false;
 
         //filter questions
         var asked = this.questions[this.block].questions.find(
@@ -83,6 +91,11 @@
         if (this.questions[this.block].questions.length === 0) {
           this.block++;
         }
+
+        setTimeout(() => {
+          this.randomQuestion();
+          console.log("eseguo funzione");
+        }, 4000);
       },
     },
   };
