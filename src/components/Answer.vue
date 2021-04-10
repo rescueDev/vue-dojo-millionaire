@@ -58,7 +58,7 @@
   .answer {
     width: 45%;
     list-style: none;
-    border: 1px solid black;
+    border: 1px solid rgb(88, 88, 88);
     padding: 8px;
     margin-bottom: 1%;
     transition: 1s ease;

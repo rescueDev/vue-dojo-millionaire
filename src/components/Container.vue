@@ -1,12 +1,7 @@
 <template>
   <div>
     <question :question="question" />
-    <answer
-      ref="answerCmp"
-      :answers="answers"
-      :correct="correct"
-      @check-answer="checkAnswer"
-    />
+    <answer :answers="answers" :correct="correct" @check-answer="checkAnswer" />
   </div>
 </template>
 
