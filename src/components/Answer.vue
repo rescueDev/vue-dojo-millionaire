@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul class="answers-box">
+    <ul class="mt-4 answers-box">
       <li
         :class="[
           results === true
@@ -49,34 +49,39 @@
 </script>
 
 <style scoped>
+  div {
+    display: flex;
+    width: 80%;
+    margin: auto;
+  }
+
   .answers-box {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
   }
   .answer {
-    width: 45%;
+    width: 40%;
     list-style: none;
     border: 1px solid rgb(88, 88, 88);
     padding: 8px;
     margin-bottom: 1%;
     transition: 1s ease;
-    border-radius: 2px;
-    font-weight: bold;
+    border-radius: 50px;
   }
 
   .answer:hover {
-    /* background-color: cornflowerblue; */
     cursor: pointer;
     transition: 1s ease;
   }
 
   .wrong {
-    background-color: red;
+    background-color: rgba(246, 82, 82, 0.835);
   }
 
   .correct {
-    background-color: green;
+    background-color: rgba(81, 233, 81, 0.438);
   }
 </style>

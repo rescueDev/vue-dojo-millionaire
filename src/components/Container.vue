@@ -20,9 +20,11 @@
     },
     methods: {
       checkAnswer(answer, index, results) {
-        console.log("container emits", index, answer);
+        // console.log("container emits", index, answer);
         this.$emit("check-answer", index, answer, results);
       },
     },
   };
 </script>
+
+<style scoped></style>

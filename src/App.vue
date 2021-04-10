@@ -5,7 +5,7 @@
       <p>Please start a new game...</p>
     </Popup>
     <Popup v-else-if="isCorrect === true">
-      <h2>Correct!!</h2>
+      <h2>Correct!! You won {{ dollars }} $</h2>
       <p>Next question is coming...</p>
     </Popup>
     <img alt="Millionaire logo" src="./assets/logo.png" />
@@ -50,6 +50,7 @@
         },
         block: 0,
         points: 0,
+        dollars: 0,
         isCorrect: null,
       };
     },
@@ -69,6 +70,7 @@
         };
         this.block = 0;
         this.points = 0;
+        this.dollars = 0;
         this.isCorrect = null;
       },
       randomQuestion() {
@@ -88,6 +90,7 @@
           answers: random.content,
           correct: random.correct,
         };
+        console.log(this.quest.correct);
       },
 
       checkAnswer(index, answer, results) {
@@ -97,7 +100,27 @@
         if (this.quest.correct === index) {
           this.isCorrect = true;
           this.points++;
-          console.log("bravo, giusta", this.points);
+          if (this.block === 0) {
+            console.log("blocco: ", this.block);
+            this.dollars += 500;
+          } else if (this.block === 1) {
+            console.log("blocco: ", this.block);
+
+            this.dollars *= 2;
+          } else if (this.block === 2) {
+            console.log("blocco: ", this.block);
+
+            this.dollars += 6000;
+          } else if (this.block === 3) {
+            console.log("blocco: ", this.block);
+
+            this.dollars *= 2.5;
+          } else if (this.block === 4) {
+            console.log("blocco: ", this.block);
+
+            this.dollars = this.dollars * 2 + 40 / 3;
+          }
+          // console.log("bravo, giusta", this.points);
 
           //filter questions
           var asked = this.questions[this.block].questions.find(
@@ -113,9 +136,14 @@
           }
 
           //pass to second and more block of questions (much difficult)
-          if (this.questions[this.block].questions.length === 0) {
+          if (this.points % 3 === 0) {
             this.block++;
+            console.log("blocco domande successivo");
           }
+
+          // if (this.questions[this.block].questions.length === 0) {
+          //   this.block++;
+          // }
 
           //passing next question if
           setTimeout(() => {
