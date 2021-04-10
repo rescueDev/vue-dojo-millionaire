@@ -4,6 +4,10 @@
       <h2>Game Over</h2>
       <p>Please start a new game...</p>
     </Popup>
+    <Popup v-else-if="isCorrect === true">
+      <h2>Correct!!</h2>
+      <p>Next question is coming...</p>
+    </Popup>
     <img alt="Millionaire logo" src="./assets/logo.png" />
     <div class="mb-4">
       <button
@@ -115,6 +119,7 @@
 
           //passing next question if
           setTimeout(() => {
+            this.isCorrect = null;
             this.randomQuestion();
             console.log("eseguo funzione");
           }, 4000);
