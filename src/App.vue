@@ -5,7 +5,7 @@
       <p>Please start a new game...</p>
     </Popup>
     <Popup v-else-if="isCorrect === true">
-      <h2>Correct!! You won {{ dollars }} $</h2>
+      <h2>Correct!! You win {{ dollars }} $</h2>
       <p>Next question is coming...</p>
     </Popup>
     <img alt="Millionaire logo" src="./assets/logo.png" />
@@ -17,6 +17,9 @@
       >
         Start Game
       </button>
+      <div v-show="dollars !== 0" class="mt-2 btn btn-success">
+        {{ dollars }} $
+      </div>
     </div>
     <Container
       :question="quest.question"
