@@ -1,12 +1,20 @@
 <template>
   <div id="app">
     <Popup v-if="isCorrect === false">
-      <h2>Game Over</h2>
-      <p>Please start a new game...</p>
+      <template v-slot:gameOver>
+        <h2>Game Over</h2>
+        <p>Please start a new game...</p>
+      </template>
     </Popup>
     <Popup v-else-if="isCorrect === true">
-      <h2>Correct!! You win {{ dollars }} $</h2>
-      <p>Next question is coming...</p>
+      <template v-if="winner === false" v-slot:correct>
+        <h2>Correct!! You win {{ dollars }} $</h2>
+        <p>Next question is coming...</p>
+      </template>
+      <template v-else-if="winner === true" v-slot:correct>
+        <h2>Congratulation You Are A Millionaire!!!</h2>
+        <p>Now enjoy your money!!</p>
+      </template>
     </Popup>
     <img alt="Millionaire logo" src="./assets/logo.png" />
     <div class="mb-4">
@@ -47,26 +55,25 @@
     data() {
       return {
         questions: questions,
+        game: "",
+        winner: false,
         quest: {
           question: "",
           answers: [],
         },
         block: 0,
+        nQ: 0,
         points: 0,
         dollars: 0,
         isCorrect: null,
       };
     },
-    mounted() {
-      console.log("Refs", this.$refs.containerComp.$children[1].clear());
-    },
-
     methods: {
       startGame() {
         this.randomQuestion();
       },
       endGame() {
-        this.questions = questions;
+        this.game = "";
         this.quest = {
           question: "",
           answers: [],
@@ -74,26 +81,38 @@
         this.block = 0;
         this.points = 0;
         this.dollars = 0;
+        this.nQ = 0;
         this.isCorrect = null;
       },
       randomQuestion() {
         //set results style answers false
         this.$refs.containerComp.$children[1].clear();
 
-        //get first block questions
-        var firstQuestion = this.questions[this.block].questions;
+        //get random block games 0-5
+        var randomBlock = this.questions;
 
-        //get random question from first block
-        let random =
-          firstQuestion[Math.floor(Math.random() * firstQuestion.length)];
+        // console.log("randomBlock", randomBlock);
+
+        //check if block game is the same or new
+        if (this.game === "") {
+          this.game =
+            randomBlock[
+              Math.floor(Math.random() * randomBlock.length)
+            ].questions;
+        }
+
+        // console.log("this game", this.game);
+
+        //get first question of block
+        const quest = this.game[this.nQ];
 
         //assign question, answers and correct
         this.quest = {
-          question: random.question,
-          answers: random.content,
-          correct: random.correct,
+          question: quest.question,
+          answers: quest.content,
+          correct: quest.correct,
         };
-        console.log(this.quest.correct);
+        console.log("corretta", this.quest.correct);
       },
 
       checkAnswer(index, answer, results) {
@@ -103,64 +122,80 @@
         if (this.quest.correct === index) {
           this.isCorrect = true;
           this.points++;
-          if (this.block === 0) {
-            console.log("blocco: ", this.block);
+
+          //set correct dollars value for each question
+          if (this.nQ >= 0 && this.nQ <= 3) {
+            console.log("question: ", this.nQ);
             this.dollars += 500;
-          } else if (this.block === 1) {
-            console.log("blocco: ", this.block);
+          } else if (this.nQ === 4) {
+            console.log("blocco: ", this.nQ);
 
-            this.dollars *= 2;
-          } else if (this.block === 2) {
-            console.log("blocco: ", this.block);
+            this.dollars = 3000;
+          } else if (this.nQ >= 5 && this.nQ <= 6) {
+            console.log("question: ", this.nQ);
 
-            this.dollars += 6000;
-          } else if (this.block === 3) {
-            console.log("blocco: ", this.block);
+            this.dollars += 2000;
+          } else if (this.nQ === 7) {
+            console.log("question: ", this.nQ);
 
-            this.dollars *= 2.5;
-          } else if (this.block === 4) {
-            console.log("blocco: ", this.block);
+            this.dollars = 10000;
+          } else if (this.nQ > 8 && this.nQ <= 9) {
+            console.log("question: ", this.nQ);
 
-            this.dollars = this.dollars * 2 + 40 / 3;
+            this.dollars += 5000;
+          } else if (this.nQ === 10) {
+            console.log("question: ", this.nQ);
+
+            this.dollars = 30000;
+          } else if (this.nQ === 11) {
+            console.log("question: ", this.nQ);
+
+            this.dollars = 70000;
+          } else if (this.nQ === 12) {
+            console.log("question: ", this.nQ);
+
+            this.dollars = 150000;
+          } else if (this.nQ === 13) {
+            console.log("question: ", this.nQ);
+
+            this.dollars = 300000;
+
+            //if last question
+          } else if (this.nQ === 14) {
+            console.log("question: ", this.nQ);
+
+            this.dollars = 1000000;
+
+            this.winner = true;
+
+            //dialog winner Millionaire
+            setTimeout(() => {
+              console.log("Winner!! You are a Milionaire!!");
+              this.endGame();
+            }, 7000);
           }
+
           // console.log("bravo, giusta", this.points);
 
-          //filter questions
-          var asked = this.questions[this.block].questions.find(
-            (el) => el.question === this.quest.question
-          );
-
-          //target question id
-          const ind = this.questions[this.block].questions.indexOf(asked);
-
-          //remove question in array questions
-          if (ind > -1) {
-            this.questions[this.block].questions.splice(ind, 1);
+          //pass to second and more questions (much difficult) until the last quest
+          if (this.nQ < 15) {
+            this.game[this.nQ++];
+            console.log("domanda successiva", this.nQ);
+            setTimeout(() => {
+              this.isCorrect = null;
+              this.randomQuestion();
+              console.log("eseguo funzione");
+            }, 3000);
           }
 
-          //pass to second and more block of questions (much difficult)
-          if (this.points % 3 === 0) {
-            this.block++;
-            console.log("blocco domande successivo");
-          }
-
-          // if (this.questions[this.block].questions.length === 0) {
-          //   this.block++;
-          // }
-
-          //passing next question if
-          setTimeout(() => {
-            this.isCorrect = null;
-            this.randomQuestion();
-            console.log("eseguo funzione");
-          }, 4000);
+          //if not correct game over
         } else {
           // alert("game over!!");
           this.isCorrect = false;
           setTimeout(() => {
             this.endGame();
             console.log("game over, resetting data....");
-          }, 4000);
+          }, 2000);
         }
       },
     },

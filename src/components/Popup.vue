@@ -1,6 +1,7 @@
 <template>
   <dialog open>
-    <slot></slot>
+    <slot name="gameOver"></slot>
+    <slot name="correct"></slot>
   </dialog>
 </template>
 
