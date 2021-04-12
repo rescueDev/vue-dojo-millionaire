@@ -74,6 +74,7 @@
       },
       endGame() {
         this.game = "";
+        this.winner = false;
         this.quest = {
           question: "",
           answers: [],
